@@ -102,7 +102,7 @@ fi
 
 ## User Authentication part ##
 # Open Authentication Page
-open http://twitter.com/oauth/authorize?oauth_token=$RKEY
+echo "Open your browser with URL -> http://twitter.com/oauth/authorize?oauth_token=$RKEY"
 
 # Ask PIN Number
 echo "It will be open http://twitter.com/oauth/authorize Get and Input PIN Number"
