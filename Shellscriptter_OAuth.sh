@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# OAuth bash Core version 1.1, optimaze for twitter.com version.
+# OAuth bash Core version 2.0, optimaze for twitter API version 1.1.
 # Script written by Hiroshi Ogawa
-# See more information http://www.kuropug.com/Shellscriptter/
+# See more information https://github.com/mutuki/Shellscriptter/wiki
 # Last modify 17th February 2010
 
 ## Initialize part ##
@@ -64,7 +64,7 @@ if [ -f "$CONFFILE" ]; then
 fi 
 
 ## GET Request token part ##
-# Application KEY and SECRET
+# These are "Consumer KEY" and "Consumer SECRET"
 # If you want to use it for your Application, You should be chage below values.
 CKEY="TyE3ffHPCOfnZgIKRb93A"
 CSECRET="Dv63v7NXWCTiQMtxSAcW58mlpGpNCRXHuTFqukxlw&"
@@ -102,10 +102,12 @@ fi
 
 ## User Authentication part ##
 # Open Authentication Page
-echo "Open your browser with URL -> http://twitter.com/oauth/authorize?oauth_token=$RKEY"
+# If your platform is without OS X, enable blow echo command, disable "open" command and joint secondary line.
+# echo "Open your browser with URL"$'\n' 
+open http://twitter.com/oauth/authorize?oauth_token=$RKEY 
 
 # Ask PIN Number
-echo "It will be open http://twitter.com/oauth/authorize Get and Input PIN Number"
+echo "it will be open http://twitter.com/oauth/authorize Get and Input PIN Number"
 read PINNUMBER
 
 ## GET Access token part ##
