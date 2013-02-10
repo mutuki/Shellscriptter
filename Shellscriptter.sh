@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Shellscriptter version 2.0, optimaze for twitter API version 1.1. 
+# OAuth bash Core version 1.1, optimaze for twitter.com version.
 # Script written by Hiroshi Ogawa
 # See more information http://www.kuropug.com/Shellscriptter/
-# Last modify 17th February 2010
+# Last modify 11th February 2013
 
 ## Initialize part ##
 # inclued Authentication Parameters
