@@ -1,0 +1,1 @@
+しぇるすくりぷったー（ShellScriptter) is /bin/bash based twitter client.
