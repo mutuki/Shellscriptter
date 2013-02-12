@@ -1,1 +1,1 @@
-Shellscriptter is /bin/bash based twitter client. Corresponding to "OAuth" authentication is characterized. You are able to ./ execute or include scheduler daemon (e.g cron, launchd) and tweet syslog status.
+Shellscriptter is /bin/bash based twitter client. Corresponding to "OAuth" authentication is characterized. You are able to ./ execute or include scheduler daemon (e.g cron, launchd) and tweet such as syslog status on your server.
