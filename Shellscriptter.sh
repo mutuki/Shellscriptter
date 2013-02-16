@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# OAuth bash Core version 1.1, optimaze for twitter.com version.
+# Scellscriptter Main version 2.0, for twitter API version 1.1.
 # Script written by Hiroshi Ogawa
 # See more information http://www.kuropug.com/Shellscriptter/
-# Last modify 11th February 2013
+# Last modify 16th February 2013
 
 ## Initialize part ##
 # inclued Authentication Parameters
@@ -120,16 +120,3 @@ else
 	POSTEDDATA=`curl --request 'POST' 'https://api.twitter.com/1.1/statuses/update.json' --data "status=$RESULT" --header "$HEADERDATA" --silent`
 	echo $POSTEDDATA>/tmp/Shellscriptter_tweet_update.json
 fi
- 
-# if [ ${timeline:-off} = "on" ]; then
-# HOMETIMESTAMP=`date +%s`
-# HOMENONCEDATA=`jot -r 1 10000000000 99999999999`
-# 
-# HOMEREQUESTPAR="oauth_consumer_key=$CKEY&oauth_nonce=$HOMENONCEDATA&oauth_signature_method=HMAC-SHA1&oauth_timestamp=$HOMETIMESTAMP&oauth_token=$AKEY&oauth_version=1.0"
-# HOMEENCREQUESTPAR=`echo -n $HOMEREQUESTPAR | sed 's/%/%25/g' |sed 's/=/%3D/g' | sed 's/&/%26/g'`
-# HOMEQUERYDATA="GET&http%3A%2F%2Fapi.twitter.com%2F1%2Fstatuses%2Fhome_timeline.xml&$HOMEENCREQUESTPAR"
-# HOMEHASHDATA=`echo -n "$HOMEQUERYDATA" | openssl sha1 -hmac "$CSECRET$ASECRET" -binary | openssl base64 | sed 's/\//%2F/g' | sed 's/=/%3D/g' | sed 's/+/%2B/g'`
-# 
-# curl -s --url "http://api.twitter.com/1/statuses/home_timeline.xml?$HOMEREQUESTPAR&oauth_signature=$HOMEHASHDATA" > /tmp/home_timeline.xml
-# xsltproc `dirname $0`/homeTimeline.xsl /tmp/home_timeline.xml
-# fi
