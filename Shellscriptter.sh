@@ -120,3 +120,7 @@ else
 	POSTEDDATA=`curl --request 'POST' 'https://api.twitter.com/1.1/statuses/update.json' --data "status=$RESULT" --header "$HEADERDATA" --silent`
 	echo $POSTEDDATA>/tmp/Shellscriptter_tweet_update.json
 fi
+
+if [ ${timeline:-off} = "on" ]; then
+	./Shellscriptter_home.sh
+fi	
