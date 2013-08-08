@@ -1,4 +1,5 @@
 #!/bin/bash
+#!/bin/osascript
 
 # Scellscriptter Main version 2.0, for twitter API version 1.1.
 # Script written by Hiroshi Ogawa
@@ -23,9 +24,6 @@ while getopts drtx: sw
         case $sw in
         "d" )
                 debug="on"
-                ;;
-        "r" )
-                ruby="on"
                 ;;
 		"t" )
 				timeline="on"
@@ -73,6 +71,8 @@ if [ ${debug:-off} = "on" ]; then
 	 echo "======================================================================="$'\n'
 fi
 
+TWEET=`osascript iTunesData.scpt | sed "s/'/%27/g"`
+
 ## Shellscriptter Core part ##
 # UNIXTIME-STAMP and NONCE Generator
 TIMESTAMP=`date +%s`
@@ -82,13 +82,9 @@ NONCEDATA=`uuidgen | tr -d "-" | tr "[A-Z]" "[a-z]"`
 # Blank=%20, !=%21, #=%23, $=%24, %=%25, &=%26,'=%27, (=%28, )=%29, /=%2F, :=%3A, ?=%3F
 # First It must be replace %=%25
 # When you set debug on (given -d), It will be bale to multibyte charactors tweet. However it works reqired Ruby 1.8.
-if [ ${ruby-off} = "on" ];then
-	RESULT=`echo -n $1 | sed "s/%27/'/"`	
-	RESULT=`ruby -e "require 'uri' ; puts URI.encode('$1', Regexp.new('[^-_.0-9a-zA-Z]') )" | sed "s/%2527/%27/g"`
-else
-	
-	RESULT=`echo -n $1 | sed 's/%/%25/g' | sed 's/ /%20/g' | sed 's/!/%21/g' | sed 's/#/%23/g' | sed "s/&/%26/g" | sed 's/(/%28/g' | sed 's/)/%29/g' | sed 's/\//%2F/g' | sed 's/:/%3A/g' | sed 's/?/%3F/g'`
-fi
+
+	RESULT=`echo -n $TWEET | sed "s/%27/'/"`	
+	RESULT=`ruby -e "require 'uri' ; puts URI.encode('$TWEET', Regexp.new('[^-_.0-9a-zA-Z]') )" | sed "s/%2527/%27/g"`
 
 # Display URLEncode status data (Debug mode)
 if [ ${debug:-off} = "on" ]; then
