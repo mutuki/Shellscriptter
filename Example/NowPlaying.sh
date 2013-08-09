@@ -71,8 +71,6 @@ if [ ${debug:-off} = "on" ]; then
 	 echo "======================================================================="$'\n'
 fi
 
-TWEET=`osascript iTunesData.scpt | sed "s/'/%27/g"`
-
 ## Shellscriptter Core part ##
 # UNIXTIME-STAMP and NONCE Generator
 TIMESTAMP=`date +%s`
@@ -83,8 +81,8 @@ NONCEDATA=`uuidgen | tr -d "-" | tr "[A-Z]" "[a-z]"`
 # First It must be replace %=%25
 # When you set debug on (given -d), It will be bale to multibyte charactors tweet. However it works reqired Ruby 1.8.
 
-	RESULT=`echo -n $TWEET | sed "s/%27/'/"`	
-	RESULT=`ruby -e "require 'uri' ; puts URI.encode('$TWEET', Regexp.new('[^-_.0-9a-zA-Z]') )" | sed "s/%2527/%27/g"`
+TWEET=`osascript iTunesData.scpt | sed "s/'/%27/g"`
+RESULT=`ruby -e "require 'uri' ; puts URI.encode('$TWEET', Regexp.new('[^-_.0-9a-zA-Z]') )" | sed "s/%2527/%27/g"`
 
 # Display URLEncode status data (Debug mode)
 if [ ${debug:-off} = "on" ]; then

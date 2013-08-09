@@ -83,8 +83,9 @@ NONCEDATA=`uuidgen | tr -d "-" | tr "[A-Z]" "[a-z]"`
 # First It must be replace %=%25
 # When you set debug on (given -d), It will be bale to multibyte charactors tweet. However it works reqired Ruby 1.8.
 if [ ${ruby-off} = "on" ];then
-	RESULT=`echo -n $1 | sed "s/%27/'/"`	
+	
 	RESULT=`ruby -e "require 'uri' ; puts URI.encode('$1', Regexp.new('[^-_.0-9a-zA-Z]') )" | sed "s/%2527/%27/g"`
+
 else
 	
 	RESULT=`echo -n $1 | sed 's/%/%25/g' | sed 's/ /%20/g' | sed 's/!/%21/g' | sed 's/#/%23/g' | sed "s/&/%26/g" | sed 's/(/%28/g' | sed 's/)/%29/g' | sed 's/\//%2F/g' | sed 's/:/%3A/g' | sed 's/?/%3F/g'`
