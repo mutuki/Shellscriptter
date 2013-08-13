@@ -82,7 +82,7 @@ NONCEDATA=`uuidgen | tr -d "-" | tr "[A-Z]" "[a-z]"`
 # When you set debug on (given -d), It will be bale to multibyte charactors tweet. However it works reqired Ruby 1.8.
 
 TWEET=`osascript iTunesData.scpt | sed "s/'/%27/g"`
-RESULT=`ruby -e "require 'uri' ; puts URI.encode('$TWEET', Regexp.new('[^-_.0-9a-zA-Z]') )" | sed "s/%2527/%27/g"`
+RESULT=`ruby -e "require 'uri' ; puts URI.encode('$TWEET', Regexp.new('[^-_.0-9a-zA-Z]') )" | sed "s/%2527/%27/g" | sed "s/%7E/~/g"`
 
 # Display URLEncode status data (Debug mode)
 if [ ${debug:-off} = "on" ]; then
