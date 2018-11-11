@@ -66,8 +66,8 @@ fi
 ## GET Request token part ##
 # These are "Consumer KEY" and "Consumer SECRET"
 # If you want to use it for your Application, You should be chage below values.
-CKEY="TyE3ffHPCOfnZgIKRb93A"
-CSECRET="Dv63v7NXWCTiQMtxSAcW58mlpGpNCRXHuTFqukxlw&"
+CKEY="8QTOXcIaYZLgtLL54id7GRu4V"
+CSECRET="c1PVGy0OzIB0ft47fE4ZNrhwcUIb95fEyakX2xVAHiowYznz9L&"
 
 # UNIXTIME-STAMP and NONCE Generator
 TIMESTAMP=`date +%s`
@@ -132,8 +132,8 @@ fi
 ACCESSTOKEN=`curl --url "https://api.twitter.com/oauth/access_token?$REQUESTPAR2&oauth_signature=$HASHDATA2"`
 
 # Generate Access KEY and SECRET
-AKEY=`echo -n $ACCESSTOKEN | tr '&' '\n' | sed -e '2,4D' | sed 's/oauth_token=//g'`
-ASECRET=`echo -n $ACCESSTOKEN | tr '&' '\n' | sed -e '1D' | sed -e '2,3D' | sed 's/oauth_token_secret=//g'`
+AKEY=`echo -n $ACCESSTOKEN | tr '&' '\n' | sed -e '2,5D' | sed 's/oauth_token=//g'`
+ASECRET=`echo -n $ACCESSTOKEN | tr '&' '\n' | sed -e '1D' | sed -e '2,4D' | sed 's/oauth_token_secret=//g'`
 
 # Display Access attributes (Debug mode)
 if [ ${debug:-off} = "on" ]; then
