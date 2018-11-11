@@ -18,7 +18,7 @@ fi
 # Get OPTIONS method written by t.taniguti
 # -d is debug mode. When you set -d, It will be shown posting paramaters.
 # -x is using proxy.
-while getopts drtx: sw
+while getopts drtwx: sw
 	do
         case $sw in
         "d" )
@@ -30,6 +30,10 @@ while getopts drtx: sw
 		"t" )
 				timeline="on"
 				;;
+		"w" )
+				weather="on"
+				ruby="on"
+				;;			
 		"x" )
                 useProxy="true"
                 Proxyurl="$OPTARG"
@@ -82,13 +86,20 @@ NONCEDATA=`uuidgen | tr -d "-" | tr "[A-Z]" "[a-z]"`
 # Blank=%20, !=%21, #=%23, $=%24, %=%25, &=%26,'=%27, (=%28, )=%29, /=%2F, :=%3A, ?=%3F
 # First It must be replace %=%25
 # When you set debug on (given -d), It will be bale to multibyte charactors tweet. However it works reqired Ruby 1.8.
-if [ ${ruby-off} = "on" ];then
+if [ ${weather:-off} = "on" ]; then
+
+	TWEET="$1 `./Weathertweet.sh`"
+else
+	TWEET=$1
+fi
+
+if [ ${ruby:-off} = "on" ]; then
 	
-	RESULT=`ruby -e "require 'uri' ; puts URI.encode('$1', Regexp.new('[^-_.0-9a-zA-Z]') )" | sed "s/%2527/%27/g" | sed "s/%7E/~/g"`
+	RESULT=`ruby -e "require 'uri' ; puts URI.encode('$TWEET', Regexp.new('[^-_.0-9a-zA-Z]') )" | sed "s/%2527/%27/g" | sed "s/%7E/~/g"`
 
 else
 	
-	RESULT=`echo -n $1 | sed 's/%/%25/g' | sed 's/ /%20/g' | sed 's/!/%21/g' | sed 's/#/%23/g' | sed "s/&/%26/g" | sed 's/(/%28/g' | sed 's/)/%29/g' | sed 's/\//%2F/g' | sed 's/:/%3A/g' | sed 's/?/%3F/g'`
+	RESULT=`echo -n $TWEET | sed 's/%/%25/g' | sed 's/ /%20/g' | sed 's/!/%21/g' | sed 's/#/%23/g' | sed "s/&/%26/g" | sed 's/(/%28/g' | sed 's/)/%29/g' | sed 's/\//%2F/g' | sed 's/:/%3A/g' | sed 's/?/%3F/g'`
 fi
 
 # Display URLEncode status data (Debug mode)
