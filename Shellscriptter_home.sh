@@ -45,18 +45,17 @@ QUERYDATA="GET&https%3A%2F%2Fapi.twitter.com%2F1.1%2Fstatuses%2Fhome_timeline.js
 HASHDATA=`echo -n "$QUERYDATA" | openssl sha1 -hmac "$CSECRET$ASECRET" -binary | openssl base64 | sed 's/\//%2F/g' | sed 's/=/%3D/g' | sed 's/+/%2B/g'`
 HEADERDATA="Authorization: OAuth oauth_consumer_key=$CKEY, oauth_nonce=$NONCEDATA, oauth_signature=$HASHDATA, oauth_signature_method=HMAC-SHA1, oauth_timestamp=$TIMESTAMP, oauth_token=$AKEY, oauth_version=1.0"
 	
-POSTEDDATA=`curl --get 'https://api.twitter.com/1.1/statuses/home_timeline.json' --header "$HEADERDATA" --silent`
+RAWDATA=`curl --get 'https://api.twitter.com/1.1/statuses/home_timeline.json' --header "$HEADERDATA" --silent`
 
 if [ ${debug:-off} = "on" ]; then
-	echo $POSTEDDATA | perl -pe 's/,{\"created_at/\n{\"created_at/g' > debugSource.json	
+	echo $RAWDATA > rawdata.json
 fi
 
-TIMELINE=`echo $POSTEDDATA | perl -pe 's/,{\"created_at/\n{\"created_at/g' | awk 'BEGIN {FS=","} {print $15,$4}' | sed 's/\"screen_name\":\"//g' | sed 's/\" \"text\":\"/ : /g' | sed 's/\"\$//g'`
+TWEETDATA=`echo "$RAWDATA" | sed -e 's/\[//' -e 's/\]$//' -e 's/\"retweeted_status/\'$'\n\"retweeted_status/g' -e 's/,{\"created_at/\'$'\n{"created_at/g' | grep -v \"retweeted_status | sed -e 's/\"user\":{/\'$'\n\"user\":{/g' -e 's/\"entities\":{/\'$'\n\"entities\":{/g' | grep -v \"entities | sed -e 's/{/{\'$'\n/g' -e 's/}/\'$'\n}/g' -e 's/\",/\"\'$'\n/g' | grep -e ^\"created_at -e ^\"text -e ^\"name | tr -d '"'`
 
 if [ ${debug:-off} = "on" ]; then
-	echo "$TIMELINE" >timeline.txt
+	echo $TWEETDATA
 fi
 
-echo "$TIMELINE" | perl -pe 's/\\\//\//g' > home.txt
-
-./decode.py
+echo "$TWEETDATA" > home.txt 
+./decode.py | grep '.' | tr -d '\n' | sed -e 's/created_at://' -e 's/text:/ :/g' -e 's/name:/ - tweet by /g' -e 's/created_at:/\'$'\n/g'
