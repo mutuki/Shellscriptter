@@ -18,12 +18,16 @@ fi
 # Get OPTIONS method written by t.taniguti
 # -d is debug mode. When you set -d, It will be shown posting paramaters.
 # -x is using proxy.
-while getopts drtwx: sw
+while getopts dfrtwx: sw
 	do
         case $sw in
         "d" )
                 debug="on"
                 ;;
+		"f" )
+				flood="on"
+				ruby="on"
+				;;			
         "r" )
                 ruby="on"
                 ;;
@@ -89,8 +93,15 @@ NONCEDATA=`uuidgen | tr -d "-" | tr "[A-Z]" "[a-z]"`
 if [ ${weather:-off} = "on" ]; then
 
 	TWEET="$1 `./Weathertweet.sh`"
+
+elif [ ${flood:-off} = "on" ]; then
+
+	TWEET="$1 `./Flood.sh`"
+
 else
+
 	TWEET=$1
+
 fi
 
 if [ ${ruby:-off} = "on" ]; then
