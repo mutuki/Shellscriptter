@@ -59,4 +59,4 @@ TEMPERATURE=`echo "$MASTERDATA" | grep -e base | tr ',' '\n' | tr -d '"' | tr -d
 HUMIDITY=`echo "$MASTERDATA" | grep -e base | tr ',' '\n' | tr -d '"' | tr -d '}' | grep -e humidity | sed -e 's/humidity://'`
 
 
-echo "現在の天気は$WEATHER""、気温は$TEMPERATURE""°、湿度は$HUMIDITY%。Powered by #openweathermap"
+echo "現在の天気は$WEATHER""、気温は$TEMPERATURE""°、湿度は$HUMIDITY%。Powered by #OpenWeatherMap"
